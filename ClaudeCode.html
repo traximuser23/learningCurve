@@ -1,0 +1,2310 @@
+<!doctype html>
+<html lang="en">
+  <style>
+    /* ─── TOKENS ─────────────────────────────────────────────── */
+    :root {
+      --blue-900: #0a1628;
+      --blue-800: #0d1f3c;
+      --blue-700: #102850;
+      --blue-600: #1b3f7a;
+      --blue-500: #1e56c0;
+      --blue-400: #2d6fe8;
+      --blue-300: #5b96f7;
+      --blue-100: #ebf2ff;
+      --teal: #00c7be;
+      --white: #ffffff;
+      --gray-50: #f7f9fc;
+      --gray-100: #edf1f7;
+      --gray-200: #d7e0ee;
+      --gray-400: #8a99b3;
+      --gray-600: #4a5568;
+      --gray-800: #1a202c;
+      --shadow-sm: 0 1px 3px rgba(10, 22, 40, 0.08), 0 1px 2px rgba(10, 22, 40, 0.06);
+      --shadow-md: 0 4px 16px rgba(10, 22, 40, 0.1), 0 2px 6px rgba(10, 22, 40, 0.07);
+      --shadow-lg: 0 12px 40px rgba(10, 22, 40, 0.13), 0 4px 14px rgba(10, 22, 40, 0.08);
+      --shadow-xl: 0 24px 64px rgba(10, 22, 40, 0.16);
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 22px;
+      --radius-xl: 32px;
+      --font-display: 'Sora', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+      --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+      --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+      --transition: 0.4s var(--ease-out-quart);
+    }
+
+    /* ─── RESET ──────────────────────────────────────────────── */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+    body {
+      font-family: var(--font-body);
+      color: var(--gray-800);
+      background: var(--white);
+      overflow-x: hidden;
+    }
+    img {
+      display: block;
+      max-width: 100%;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    ul {
+      list-style: none;
+    }
+    button {
+      cursor: pointer;
+      font-family: var(--font-body);
+      border: none;
+      outline: none;
+    }
+
+    /* ─── UTILITY ─────────────────────────────────────────────── */
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .tag {
+      display: inline-block;
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--blue-500);
+      background: var(--blue-100);
+      padding: 5px 14px;
+      border-radius: 100px;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.7rem, 2.8vw, 2.4rem);
+      font-weight: 700;
+      color: var(--blue-900);
+      line-height: 1.25;
+    }
+    .section-title em {
+      font-style: normal;
+      color: var(--blue-400);
+    }
+    .section-sub {
+      color: var(--gray-600);
+      font-size: 1.05rem;
+      line-height: 1.7;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+    .text-center {
+      text-align: center;
+    }
+
+    /* ─── SCROLL-REVEAL ───────────────────────────────────────── */
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(36px);
+      transition:
+        opacity 0.7s var(--ease-out-quart),
+        transform 0.7s var(--ease-out-quart);
+    }
+    [data-reveal].visible {
+      opacity: 1;
+      transform: none;
+    }
+    [data-reveal='left'] {
+      transform: translateX(-36px);
+    }
+    [data-reveal='right'] {
+      transform: translateX(36px);
+    }
+    [data-reveal='left'].visible,
+    [data-reveal='right'].visible {
+      transform: none;
+    }
+    [data-delay='1'] {
+      transition-delay: 0.1s;
+    }
+    [data-delay='2'] {
+      transition-delay: 0.2s;
+    }
+    [data-delay='3'] {
+      transition-delay: 0.3s;
+    }
+    [data-delay='4'] {
+      transition-delay: 0.4s;
+    }
+    [data-delay='5'] {
+      transition-delay: 0.5s;
+    }
+    [data-delay='6'] {
+      transition-delay: 0.6s;
+    }
+
+    /* ─── BUTTONS ─────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.93rem;
+      padding: 12px 26px;
+      border-radius: var(--radius-sm);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.15);
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+    .btn:hover::after {
+      opacity: 1;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--blue-500), var(--blue-400));
+      color: var(--white);
+      box-shadow: 0 4px 18px rgba(30, 86, 192, 0.35);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(30, 86, 192, 0.42);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--blue-900);
+      border: 1.5px solid var(--gray-200);
+    }
+    .btn-outline:hover {
+      border-color: var(--blue-400);
+      color: var(--blue-400);
+      transform: translateY(-2px);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--white);
+      border: 1.5px solid rgba(255, 255, 255, 0.35);
+    }
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.12);
+      transform: translateY(-2px);
+    }
+    .btn-white {
+      background: var(--white);
+      color: var(--blue-500);
+      box-shadow: var(--shadow-md);
+    }
+    .btn-white:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+    .btn-white-outline {
+      background: transparent;
+      color: var(--white);
+      border: 1.5px solid rgba(255, 255, 255, 0.5);
+    }
+    .btn-white-outline:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+    }
+
+    /* ─── NAVBAR ──────────────────────────────────────────────── */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 18px 0;
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid transparent;
+      transition:
+        padding 0.35s,
+        border-color 0.35s,
+        box-shadow 0.35s;
+    }
+    .navbar.scrolled {
+      padding: 12px 0;
+      border-color: var(--gray-100);
+      box-shadow: 0 4px 24px rgba(10, 22, 40, 0.07);
+    }
+    .navbar-inner {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--blue-900);
+    }
+    .logo-icon {
+      width: 240px;
+      /* background: linear-gradient(135deg, var(--blue-500), var(--blue-400)); */
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /* box-shadow: 0 4px 12px rgba(30, 86, 192, 0.3); */
+    }
+    .logo-icon svg {
+      fill: var(--white);
+    }
+    .logo-sub {
+      font-size: 0.62rem;
+      font-weight: 400;
+      color: var(--gray-400);
+      letter-spacing: 0.04em;
+      display: block;
+      line-height: 1;
+      margin-top: -2px;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 34px;
+      margin-left: auto;
+    }
+    .nav-links a {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--gray-600);
+      transition: color 0.25s;
+    }
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--blue-500);
+    }
+    .nav-cta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .nav-signin {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--gray-600);
+      transition: color 0.25s;
+    }
+    .nav-signin:hover {
+      color: var(--blue-500);
+    }
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+    }
+    .hamburger span {
+      width: 22px;
+      height: 2px;
+      background: var(--blue-900);
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+
+    /* ─── HERO ────────────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(165deg, #f0f5ff 0%, #e8f0fe 35%, #eef4ff 70%, #f7faff 100%);
+      padding: 130px 0 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      right: -200px;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(45, 111, 232, 0.12) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: pulse-glow 6s ease-in-out infinite;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -100px;
+      left: -150px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(0, 199, 190, 0.08) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: pulse-glow 8s ease-in-out infinite reverse;
+    }
+    @keyframes pulse-glow {
+      0%,
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.08);
+        opacity: 0.7;
+      }
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 60px;
+    }
+    .hero-content {
+      z-index: 1;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      padding: 7px 14px;
+      border-radius: 100px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--blue-600);
+      margin-bottom: 28px;
+      box-shadow: var(--shadow-sm);
+      animation: badge-enter 0.8s var(--ease-out-quart) both;
+    }
+    @keyframes badge-enter {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+    .hero-badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--teal);
+      box-shadow: 0 0 0 3px rgba(0, 199, 190, 0.25);
+      animation: dot-pulse 2s ease-in-out infinite;
+    }
+    @keyframes dot-pulse {
+      0%,
+      100% {
+        box-shadow: 0 0 0 3px rgba(0, 199, 190, 0.25);
+      }
+      50% {
+        box-shadow: 0 0 0 6px rgba(0, 199, 190, 0.1);
+      }
+    }
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      font-weight: 800;
+      line-height: 1.13;
+      color: var(--blue-900);
+      margin-bottom: 20px;
+      animation: hero-title-enter 1s var(--ease-out-quart) 0.15s both;
+    }
+    @keyframes hero-title-enter {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+    .hero-title span {
+      color: var(--blue-400);
+    }
+    .hero-desc {
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: var(--gray-600);
+      margin-bottom: 36px;
+      max-width: 480px;
+      animation: hero-title-enter 1s var(--ease-out-quart) 0.3s both;
+    }
+    .hero-cta {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      animation: hero-title-enter 1s var(--ease-out-quart) 0.45s both;
+    }
+    .hero-trust {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      margin-top: 48px;
+      flex-wrap: wrap;
+      animation: hero-title-enter 1s var(--ease-out-quart) 0.6s both;
+    }
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      color: var(--gray-600);
+      font-weight: 500;
+    }
+    .trust-item svg {
+      width: 16px;
+      height: 16px;
+      color: var(--blue-400);
+      flex-shrink: 0;
+    }
+    .hero-visual {
+      position: relative;
+      z-index: 1;
+      animation: hero-visual-enter 1.2s var(--ease-out-quart) 0.2s both;
+    }
+    @keyframes hero-visual-enter {
+      from {
+        opacity: 0;
+        transform: translateY(40px) scale(0.97);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+    .hero-dashboard {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      box-shadow:
+        var(--shadow-xl),
+        0 0 0 1px rgba(10, 22, 40, 0.05);
+      overflow: hidden;
+    }
+    .dash-header {
+      padding: 14px 20px;
+      background: var(--blue-900);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .dash-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .dash-dot.red {
+      background: #ff5f57;
+    }
+    .dash-dot.yellow {
+      background: #ffbd2e;
+    }
+    .dash-dot.green {
+      background: #28ca41;
+    }
+    .dash-title {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.7);
+      margin-left: 8px;
+      font-family: var(--font-display);
+    }
+    .dash-body {
+      padding: 20px;
+    }
+    .dash-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .stat-card {
+      background: var(--gray-50);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      border: 1px solid var(--gray-100);
+    }
+    .stat-label {
+      font-size: 0.68rem;
+      color: var(--gray-400);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+    }
+    .stat-val {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--blue-900);
+      margin-bottom: 4px;
+    }
+    .stat-change {
+      font-size: 0.7rem;
+      color: #22c55e;
+      font-weight: 600;
+    }
+    .dash-charts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .chart-card {
+      background: var(--gray-50);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      border: 1px solid var(--gray-100);
+    }
+    .chart-title {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--blue-900);
+      margin-bottom: 10px;
+    }
+    .donut-chart {
+      width: 70px;
+      height: 70px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .donut-chart svg {
+      transform: rotate(-90deg);
+    }
+    .activity-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .activity-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.68rem;
+      color: var(--gray-600);
+    }
+    .activity-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--blue-400);
+      flex-shrink: 0;
+    }
+    .activity-time {
+      color: var(--gray-400);
+      margin-left: auto;
+    }
+    .hero-phone {
+      position: absolute;
+      bottom: -20px;
+      right: -30px;
+      width: 140px;
+      background: var(--white);
+      border-radius: 20px;
+      padding: 12px;
+      box-shadow:
+        var(--shadow-xl),
+        0 0 0 1px rgba(10, 22, 40, 0.06);
+      animation: phone-float 4s ease-in-out infinite;
+    }
+    @keyframes phone-float {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+    .phone-stat {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .phone-stat-item {
+      text-align: center;
+    }
+    .phone-stat-num {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--blue-900);
+    }
+    .phone-stat-label {
+      font-size: 0.55rem;
+      color: var(--gray-400);
+    }
+    .phone-bar {
+      height: 4px;
+      background: var(--gray-100);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .phone-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--blue-400), var(--teal));
+      border-radius: 2px;
+      transition: width 2s var(--ease-out-quart);
+    }
+
+    /* ─── FEATURES STRIP ─────────────────────────────────────── */
+    .features-strip {
+      padding: 70px 0;
+      background: var(--white);
+    }
+    .features-strip-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--gray-600);
+      text-align: center;
+      margin-bottom: 44px;
+      letter-spacing: 0.01em;
+    }
+    .features-strip-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 2px;
+    }
+    .feat-cell {
+      background: var(--gray-50);
+      border: 1px solid var(--gray-100);
+      padding: 28px 20px;
+      text-align: center;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .feat-cell:first-child {
+      border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+    }
+    .feat-cell:last-child {
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    }
+    .feat-cell:hover {
+      background: var(--blue-100);
+      z-index: 1;
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+    .feat-cell:hover .feat-icon {
+      color: var(--blue-400);
+    }
+    .feat-icon {
+      font-size: 1.7rem;
+      margin-bottom: 12px;
+      transition: var(--transition);
+    }
+    .feat-cell h4 {
+      font-family: var(--font-display);
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--blue-900);
+      margin-bottom: 7px;
+    }
+    .feat-cell p {
+      font-size: 0.7rem;
+      color: var(--gray-600);
+      line-height: 1.5;
+    }
+
+    /* ─── ECOSYSTEM SECTION ──────────────────────────────────── */
+    .ecosystem {
+      padding: 100px 0;
+      background: var(--gray-50);
+    }
+    .eco-header {
+      text-align: center;
+      margin-bottom: 70px;
+    }
+    .eco-header .section-title {
+      margin: 14px 0 16px;
+    }
+    .portals {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+    .portal-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 60px;
+      background: var(--white);
+      border-radius: var(--radius-xl);
+      padding: 48px 52px;
+      border: 1px solid var(--gray-100);
+      box-shadow: var(--shadow-sm);
+      transition:
+        box-shadow 0.4s,
+        transform 0.4s;
+    }
+    .portal-card:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-4px);
+    }
+    .portal-card.reverse {
+      direction: rtl;
+    }
+    .portal-card.reverse > * {
+      direction: ltr;
+    }
+    .portal-badge {
+      width: 52px;
+      height: 52px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      margin-bottom: 18px;
+    }
+    .portal-badge.blue {
+      background: var(--blue-100);
+    }
+    .portal-badge.teal {
+      background: rgba(0, 199, 190, 0.12);
+    }
+    .portal-badge.purple {
+      background: rgba(124, 77, 255, 0.1);
+    }
+    .portal-title {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--blue-900);
+      margin-bottom: 10px;
+    }
+    .portal-desc {
+      font-size: 0.94rem;
+      color: var(--gray-600);
+      line-height: 1.7;
+      margin-bottom: 22px;
+    }
+    .portal-features {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      margin-bottom: 28px;
+    }
+    .portal-feat {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.85rem;
+      color: var(--gray-700);
+    }
+    .portal-feat::before {
+      content: '';
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--blue-400);
+      flex-shrink: 0;
+    }
+    .portal-screen {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow:
+        var(--shadow-xl),
+        0 0 0 1px rgba(10, 22, 40, 0.06);
+      background: var(--white);
+    }
+    .screen-bar {
+      background: var(--blue-900);
+      padding: 11px 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .screen-bar span {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+    }
+    .screen-bar span:nth-child(1) {
+      background: #ff5f57;
+    }
+    .screen-bar span:nth-child(2) {
+      background: #ffbd2e;
+    }
+    .screen-bar span:nth-child(3) {
+      background: #28ca41;
+    }
+    .screen-bar-title {
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.6);
+      margin-left: 8px;
+      font-family: var(--font-display);
+    }
+    .screen-content {
+      padding: 18px;
+    }
+    .screen-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .screen-table th {
+      background: var(--gray-50);
+      padding: 8px 10px;
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: var(--gray-400);
+      text-align: left;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .screen-table td {
+      padding: 8px 10px;
+      font-size: 0.72rem;
+      color: var(--gray-700);
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 100px;
+      font-size: 0.62rem;
+      font-weight: 600;
+    }
+    .status-badge.active {
+      background: rgba(34, 197, 94, 0.12);
+      color: #16a34a;
+    }
+    .status-badge.pending {
+      background: rgba(234, 179, 8, 0.12);
+      color: #b45309;
+    }
+    .status-badge.review {
+      background: rgba(59, 130, 246, 0.12);
+      color: var(--blue-500);
+    }
+
+    /* ─── WHY SECTION ────────────────────────────────────────── */
+    .why {
+      padding: 100px 0;
+      background: var(--white);
+    }
+    .why-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+    .why-header .section-title {
+      margin: 14px 0 16px;
+    }
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .why-card {
+      background: var(--gray-50);
+      border-radius: var(--radius-lg);
+      padding: 32px 28px;
+      border: 1px solid var(--gray-100);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .why-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--blue-500), var(--blue-300));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.45s var(--ease-out-quart);
+    }
+    .why-card:hover::before {
+      transform: scaleX(1);
+    }
+    .why-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-4px);
+      background: var(--white);
+    }
+    .why-num {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--gray-200);
+      line-height: 1;
+      margin-bottom: 20px;
+      transition: color 0.4s;
+    }
+    .why-card:hover .why-num {
+      color: var(--blue-100);
+    }
+    .why-card h4 {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--blue-900);
+      margin-bottom: 10px;
+    }
+    .why-card p {
+      font-size: 0.85rem;
+      color: var(--gray-600);
+      line-height: 1.7;
+    }
+
+    /* ─── LOGOS ──────────────────────────────────────────────── */
+    .logos {
+      padding: 64px 0;
+      background: var(--gray-50);
+      border-top: 1px solid var(--gray-100);
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .logos-label {
+      text-align: center;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--gray-400);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+    }
+    .logos-track {
+      display: flex;
+      align-items: center;
+      gap: 48px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .logo-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--gray-400);
+      transition: color 0.3s;
+      white-space: nowrap;
+    }
+    .logo-item:hover {
+      color: var(--gray-600);
+    }
+    .logo-item-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+    }
+
+    /* ─── CTA SECTION ────────────────────────────────────────── */
+    .cta-section {
+      padding: 100px 0;
+      background: linear-gradient(135deg, var(--blue-900) 0%, var(--blue-700) 50%, #1a3a6e 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .cta-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+    .cta-left {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+    .cta-rocket {
+      width: 70px;
+      height: 70px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      animation: rocket-bounce 3s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+    @keyframes rocket-bounce {
+      0%,
+      100% {
+        transform: translateY(0) rotate(-5deg);
+      }
+      50% {
+        transform: translateY(-8px) rotate(5deg);
+      }
+    }
+    .cta-text h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+    .cta-text p {
+      font-size: 0.92rem;
+      color: rgba(255, 255, 255, 0.65);
+      line-height: 1.6;
+      max-width: 420px;
+    }
+    .cta-btns {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* ─── FOOTER ─────────────────────────────────────────────── */
+    footer {
+      background: var(--blue-900);
+      padding: 70px 0 40px;
+      color: rgba(255, 255, 255, 0.65);
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr 1fr 1.4fr;
+      gap: 40px;
+      margin-bottom: 56px;
+    }
+    .footer-logo {
+      margin-bottom: 16px;
+    }
+    .footer-about {
+      font-size: 0.83rem;
+      line-height: 1.75;
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 24px;
+    }
+    .footer-socials {
+      display: flex;
+      gap: 10px;
+    }
+    .social-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      transition:
+        background 0.25s,
+        transform 0.25s;
+      color: rgba(255, 255, 255, 0.6);
+    }
+    .social-btn:hover {
+      background: rgba(255, 255, 255, 0.16);
+      transform: translateY(-2px);
+    }
+    .footer-col h5 {
+      font-family: var(--font-display);
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--white);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 18px;
+    }
+    .footer-col ul {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .footer-col ul a {
+      font-size: 0.83rem;
+      color: rgba(255, 255, 255, 0.5);
+      transition: color 0.25s;
+    }
+    .footer-col ul a:hover {
+      color: var(--white);
+    }
+    .footer-newsletter h5 {
+      font-family: var(--font-display);
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--white);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 18px;
+    }
+    .footer-newsletter p {
+      font-size: 0.82rem;
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+    .newsletter-form {
+      display: flex;
+      gap: 0;
+    }
+    .newsletter-form input {
+      flex: 1;
+      padding: 11px 16px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-right: none;
+      border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+      color: var(--white);
+      font-size: 0.83rem;
+      font-family: var(--font-body);
+      outline: none;
+      transition: border-color 0.25s;
+    }
+    .newsletter-form input:focus {
+      border-color: var(--blue-400);
+    }
+    .newsletter-form input::placeholder {
+      color: rgba(255, 255, 255, 0.3);
+    }
+    .newsletter-form button {
+      padding: 11px 16px;
+      background: var(--blue-400);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--white);
+      transition: background 0.25s;
+    }
+    .newsletter-form button:hover {
+      background: var(--blue-300);
+    }
+    .footer-bottom {
+      padding-top: 32px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .footer-bottom p {
+      font-size: 0.78rem;
+      color: rgba(255, 255, 255, 0.3);
+    }
+    .footer-legal {
+      display: flex;
+      gap: 20px;
+    }
+    .footer-legal a {
+      font-size: 0.78rem;
+      color: rgba(255, 255, 255, 0.35);
+      transition: color 0.25s;
+    }
+    .footer-legal a:hover {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* ─── COUNTER ANIMATION ──────────────────────────────────── */
+    .count-up {
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .hero-visual {
+        max-width: 580px;
+        margin: 0 auto;
+      }
+      .features-strip-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .portal-card {
+        grid-template-columns: 1fr;
+      }
+      .portal-card.reverse {
+        direction: ltr;
+      }
+      .why-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    @media (max-width: 768px) {
+      .nav-links,
+      .nav-cta {
+        display: none;
+      }
+      .hamburger {
+        display: flex;
+      }
+      .features-strip-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .why-grid {
+        grid-template-columns: 1fr;
+      }
+      .cta-inner {
+        flex-direction: column;
+        text-align: center;
+      }
+      .cta-left {
+        flex-direction: column;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+      }
+      .dash-stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .dash-charts {
+        grid-template-columns: 1fr;
+      }
+      .hero-phone {
+        display: none;
+      }
+    }
+    @media (max-width: 480px) {
+      .features-strip-grid {
+        grid-template-columns: 1fr;
+      }
+      .portal-card {
+        padding: 28px 24px;
+      }
+    }
+  </style>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CaseClinical – Smarter Documentation. Better Patient Outcomes.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- ─── NAVBAR ──────────────────────────────────────────── -->
+    <nav class="navbar" id="navbar">
+      <div class="container navbar-inner">
+        <a href="#" class="logo">
+          <div class="logo-icon">
+            <img src="assets/CaseClinical.png" alt="CaseClinical Logo" />
+          </div>
+          <!-- <div>
+            CaseClinical<br />
+            <span class="logo-sub">Documentation · By LearnWorlds</span>
+          </div> -->
+        </a>
+
+        <div class="nav-links">
+          <a href="#" class="active">Home</a>
+          <a href="#ecosystem">Documentation</a>
+          <a href="#why">Resources</a>
+        </div>
+
+        <div class="nav-cta">
+          <a href="#" class="nav-signin">Sign In</a>
+          <a href="#" class="btn btn-primary">Sign Up</a>
+        </div>
+
+        <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+      </div>
+    </nav>
+
+    <!-- ─── HERO ─────────────────────────────────────────────── -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <div class="hero-badge">
+            <span class="hero-badge-dot"></span>
+            Trusted by 10,000+ Healthcare Professionals
+          </div>
+          <h1 class="hero-title">
+            Smarter Documentation.<br />
+            <span>Better Patient Outcomes.</span>
+          </h1>
+          <p class="hero-desc">
+            CaseClinical is the all-in-one documentation platform for healthcare professionals.
+            Streamline case management, connect your team, and deliver better care—every step of the
+            way.
+          </p>
+          <div class="hero-cta">
+            <a href="#" class="btn btn-primary">Get Started Free →</a>
+            <a href="#" class="btn btn-outline">Explore Documentation</a>
+          </div>
+          <div class="hero-trust">
+            <div class="trust-item">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              >
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              Secure & Compliant
+            </div>
+            <div class="trust-item">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              >
+                <rect x="2" y="3" width="20" height="14" rx="2" />
+                <path d="M8 21h8M12 17v4" />
+              </svg>
+              Cloud Based
+            </div>
+            <div class="trust-item">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              >
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+              </svg>
+              Built for Healthcare
+            </div>
+            <div class="trust-item">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              >
+                <circle cx="18" cy="18" r="3" />
+                <circle cx="6" cy="6" r="3" />
+                <path d="M18 9V7a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v9" />
+              </svg>
+              Seamless Integration
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="hero-dashboard">
+            <div class="dash-header">
+              <div class="dash-dot red"></div>
+              <div class="dash-dot yellow"></div>
+              <div class="dash-dot green"></div>
+              <span class="dash-title">Dashboard</span>
+            </div>
+            <div class="dash-body">
+              <div class="dash-stats">
+                <div class="stat-card">
+                  <div class="stat-label">Total Cases</div>
+                  <div class="stat-val count-up" data-target="1248">0</div>
+                  <div class="stat-change">↑ 12.8%</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-label">Open Cases</div>
+                  <div class="stat-val count-up" data-target="342">0</div>
+                  <div class="stat-change">↑ 9.4%</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-label">Documents</div>
+                  <div class="stat-val count-up" data-target="2856">0</div>
+                  <div class="stat-change">↑ 18.7%</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-label">Tasks</div>
+                  <div class="stat-val count-up" data-target="96">0</div>
+                  <div class="stat-change">↑ 5.1%</div>
+                </div>
+              </div>
+              <div class="dash-charts">
+                <div class="chart-card">
+                  <div class="chart-title">Case Status Overview</div>
+                  <div class="donut-chart">
+                    <svg viewBox="0 0 36 36" width="70" height="70">
+                      <circle
+                        cx="18"
+                        cy="18"
+                        r="15.9"
+                        fill="none"
+                        stroke="#EDF1F7"
+                        stroke-width="3"
+                      />
+                      <circle
+                        cx="18"
+                        cy="18"
+                        r="15.9"
+                        fill="none"
+                        stroke="#2D6FE8"
+                        stroke-width="3"
+                        stroke-dasharray="40 60"
+                        stroke-dashoffset="0"
+                        class="donut-arc"
+                      />
+                      <circle
+                        cx="18"
+                        cy="18"
+                        r="15.9"
+                        fill="none"
+                        stroke="#5B96F7"
+                        stroke-width="3"
+                        stroke-dasharray="25 75"
+                        stroke-dashoffset="-40"
+                        class="donut-arc"
+                      />
+                      <circle
+                        cx="18"
+                        cy="18"
+                        r="15.9"
+                        fill="none"
+                        stroke="#00C7BE"
+                        stroke-width="3"
+                        stroke-dasharray="20 80"
+                        stroke-dashoffset="-65"
+                        class="donut-arc"
+                      />
+                      <circle
+                        cx="18"
+                        cy="18"
+                        r="15.9"
+                        fill="none"
+                        stroke="#D7E0EE"
+                        stroke-width="3"
+                        stroke-dasharray="15 85"
+                        stroke-dashoffset="-85"
+                        class="donut-arc"
+                      />
+                    </svg>
+                  </div>
+                  <div style="display: flex; flex-direction: column; gap: 5px; margin-top: 8px">
+                    <div
+                      style="
+                        display: flex;
+                        align-items: center;
+                        gap: 6px;
+                        font-size: 0.62rem;
+                        color: var(--gray-600);
+                      "
+                    >
+                      <span
+                        style="
+                          width: 8px;
+                          height: 8px;
+                          background: #2d6fe8;
+                          border-radius: 2px;
+                          flex-shrink: 0;
+                        "
+                      ></span
+                      >Open (40%)
+                    </div>
+                    <div
+                      style="
+                        display: flex;
+                        align-items: center;
+                        gap: 6px;
+                        font-size: 0.62rem;
+                        color: var(--gray-600);
+                      "
+                    >
+                      <span
+                        style="
+                          width: 8px;
+                          height: 8px;
+                          background: #5b96f7;
+                          border-radius: 2px;
+                          flex-shrink: 0;
+                        "
+                      ></span
+                      >In Progress (25%)
+                    </div>
+                    <div
+                      style="
+                        display: flex;
+                        align-items: center;
+                        gap: 6px;
+                        font-size: 0.62rem;
+                        color: var(--gray-600);
+                      "
+                    >
+                      <span
+                        style="
+                          width: 8px;
+                          height: 8px;
+                          background: #00c7be;
+                          border-radius: 2px;
+                          flex-shrink: 0;
+                        "
+                      ></span
+                      >Review (20%)
+                    </div>
+                    <div
+                      style="
+                        display: flex;
+                        align-items: center;
+                        gap: 6px;
+                        font-size: 0.62rem;
+                        color: var(--gray-600);
+                      "
+                    >
+                      <span
+                        style="
+                          width: 8px;
+                          height: 8px;
+                          background: #d7e0ee;
+                          border-radius: 2px;
+                          flex-shrink: 0;
+                        "
+                      ></span
+                      >Closed (15%)
+                    </div>
+                  </div>
+                </div>
+                <div class="chart-card">
+                  <div class="chart-title">Recent Activity</div>
+                  <div class="activity-list">
+                    <div class="activity-item">
+                      <div class="activity-dot" style="background: #22c55e"></div>
+                      New case created <span class="activity-time">2 min ago</span>
+                    </div>
+                    <div class="activity-item">
+                      <div class="activity-dot" style="background: #2d6fe8"></div>
+                      Document uploaded <span class="activity-time">13 min ago</span>
+                    </div>
+                    <div class="activity-item">
+                      <div class="activity-dot" style="background: #00c7be"></div>
+                      Task completed <span class="activity-time">1 hr ago</span>
+                    </div>
+                    <div class="activity-item">
+                      <div class="activity-dot" style="background: #f59e0b"></div>
+                      Case updated <span class="activity-time">3 hr ago</span>
+                    </div>
+                    <div class="activity-item">
+                      <div class="activity-dot" style="background: #8b5cf6"></div>
+                      Note added <span class="activity-time">5 hr ago</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-phone">
+            <div
+              style="
+                font-family: var(--font-display);
+                font-size: 0.62rem;
+                font-weight: 700;
+                color: var(--blue-900);
+                margin-bottom: 10px;
+              "
+            >
+              Case Overview
+            </div>
+            <div class="phone-stat">
+              <div class="phone-stat-item">
+                <div class="phone-stat-num">12</div>
+                <div class="phone-stat-label">Documents</div>
+              </div>
+              <div class="phone-stat-item">
+                <div class="phone-stat-num">4</div>
+                <div class="phone-stat-label">Tasks</div>
+              </div>
+              <div class="phone-stat-item">
+                <div class="phone-stat-num">8</div>
+                <div class="phone-stat-label">Notes</div>
+              </div>
+            </div>
+            <div style="margin: 10px 0 4px; font-size: 0.55rem; color: var(--gray-400)">
+              Case Progress
+            </div>
+            <div class="phone-bar">
+              <div class="phone-bar-fill" id="phone-bar-fill" style="width: 0%"></div>
+            </div>
+            <div
+              style="
+                font-size: 0.55rem;
+                color: var(--blue-400);
+                font-weight: 600;
+                margin-top: 4px;
+                text-align: right;
+              "
+            >
+              78% Complete
+            </div>
+            <div
+              style="
+                margin-top: 10px;
+                padding: 7px;
+                background: rgba(0, 199, 190, 0.08);
+                border-radius: 6px;
+                border: 1px solid rgba(0, 199, 190, 0.2);
+              "
+            >
+              <div
+                style="
+                  font-size: 0.62rem;
+                  font-weight: 600;
+                  color: var(--blue-900);
+                  margin-bottom: 3px;
+                "
+              >
+                Status: Active
+              </div>
+              <div style="font-size: 0.6rem; color: var(--gray-400)">
+                Last updated: Today, 9:41 AM
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── FEATURES STRIP ─────────────────────────────────── -->
+    <section class="features-strip">
+      <div class="container">
+        <p class="features-strip-title">Built for Healthcare. Designed for Impact.</p>
+        <div class="features-strip-grid">
+          <div class="feat-cell" data-reveal data-delay="1">
+            <div class="feat-icon">🛡️</div>
+            <h4>Improve Compliance</h4>
+            <p>Meet regulatory requirements with confidence and ease.</p>
+          </div>
+          <div class="feat-cell" data-reveal data-delay="2">
+            <div class="feat-icon">⏱️</div>
+            <h4>Save Time</h4>
+            <p>Automate workflows and reduce administrative tasks.</p>
+          </div>
+          <div class="feat-cell" data-reveal data-delay="3">
+            <div class="feat-icon">👥</div>
+            <h4>Collaborate Seamlessly</h4>
+            <p>Connect teams and share information securely.</p>
+          </div>
+          <div class="feat-cell" data-reveal data-delay="4">
+            <div class="feat-icon">🔒</div>
+            <h4>Enterprise Security</h4>
+            <p>Bank-level encryption and role-based access.</p>
+          </div>
+          <div class="feat-cell" data-reveal data-delay="5">
+            <div class="feat-icon">📊</div>
+            <h4>Data-Driven Insights</h4>
+            <p>Make informed decisions with real-time reporting.</p>
+          </div>
+          <div class="feat-cell" data-reveal data-delay="6">
+            <div class="feat-icon">🔗</div>
+            <h4>Integrate Effortlessly</h4>
+            <p>Connect with your existing tools and systems.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── ECOSYSTEM ─────────────────────────────────────────── -->
+    <section class="ecosystem" id="ecosystem">
+      <div class="container">
+        <div class="eco-header" data-reveal>
+          <span class="tag">Three Portals</span>
+          <h2 class="section-title" style="margin-top: 14px">One Connected <em>EcoSystem.</em></h2>
+        </div>
+
+        <div class="portals">
+          <!-- Attorney Portal -->
+          <div class="portal-card" data-reveal>
+            <div class="portal-info">
+              <div class="portal-badge blue">🗂️</div>
+              <h3 class="portal-title">Attorney Portal</h3>
+              <p class="portal-desc">
+                Manage cases, collaborate with your team, and track every detail from intake to
+                resolution.
+              </p>
+              <ul class="portal-features">
+                <li class="portal-feat">Full case lifecycle management</li>
+                <li class="portal-feat">Secure document management & e-signatures</li>
+                <li class="portal-feat">Task management & deadlines</li>
+                <li class="portal-feat">Custom dashboards & reporting</li>
+                <li class="portal-feat">Billing & time tracking integration</li>
+              </ul>
+              <a href="#" class="btn btn-primary">Explore Attorney Portal →</a>
+            </div>
+            <div class="portal-screen">
+              <div class="screen-bar">
+                <span></span><span></span><span></span>
+                <span class="screen-bar-title">Cases</span>
+              </div>
+              <div class="screen-content">
+                <table class="screen-table">
+                  <thead>
+                    <tr>
+                      <th>Case ID</th>
+                      <th>Patient</th>
+                      <th>Attorney</th>
+                      <th>Status</th>
+                      <th>Updated</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>C-1234</td>
+                      <td>John D.</td>
+                      <td>Sarah M.</td>
+                      <td><span class="status-badge active">Active</span></td>
+                      <td>Today</td>
+                    </tr>
+                    <tr>
+                      <td>C-1235</td>
+                      <td>Maria L.</td>
+                      <td>Tom K.</td>
+                      <td><span class="status-badge review">Review</span></td>
+                      <td>Yesterday</td>
+                    </tr>
+                    <tr>
+                      <td>C-1236</td>
+                      <td>David R.</td>
+                      <td>Sarah M.</td>
+                      <td><span class="status-badge pending">Pending</span></td>
+                      <td>2 days ago</td>
+                    </tr>
+                    <tr>
+                      <td>C-1237</td>
+                      <td>Emily S.</td>
+                      <td>Chris B.</td>
+                      <td><span class="status-badge active">Active</span></td>
+                      <td>Today</td>
+                    </tr>
+                    <tr>
+                      <td>C-1238</td>
+                      <td>Robert J.</td>
+                      <td>Amy W.</td>
+                      <td><span class="status-badge review">Review</span></td>
+                      <td>3 days ago</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Provider Portal -->
+          <div class="portal-card reverse" data-reveal>
+            <div class="portal-info">
+              <div class="portal-badge teal">🏥</div>
+              <h3 class="portal-title">Provider Portal</h3>
+              <p class="portal-desc">
+                Coordinate care, manage referrals, and communicate securely across your network.
+              </p>
+              <ul class="portal-features">
+                <li class="portal-feat">Referral & authorizations management</li>
+                <li class="portal-feat">Real-time case updates</li>
+                <li class="portal-feat">Secure messaging & notifications</li>
+                <li class="portal-feat">Document uploads & forms</li>
+                <li class="portal-feat">Care plan & notes management</li>
+              </ul>
+              <a href="#" class="btn btn-primary">Explore Provider Portal →</a>
+            </div>
+            <div class="portal-screen">
+              <div class="screen-bar">
+                <span></span><span></span><span></span>
+                <span class="screen-bar-title">Referrals</span>
+              </div>
+              <div class="screen-content">
+                <table class="screen-table">
+                  <thead>
+                    <tr>
+                      <th>Referral ID</th>
+                      <th>Patient</th>
+                      <th>Provider</th>
+                      <th>Status</th>
+                      <th>Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>R-5521</td>
+                      <td>Amy K.</td>
+                      <td>Dr. Chen</td>
+                      <td><span class="status-badge active">Approved</span></td>
+                      <td>Today</td>
+                    </tr>
+                    <tr>
+                      <td>R-5522</td>
+                      <td>Brian T.</td>
+                      <td>Dr. Patel</td>
+                      <td><span class="status-badge pending">Pending</span></td>
+                      <td>Yesterday</td>
+                    </tr>
+                    <tr>
+                      <td>R-5523</td>
+                      <td>Lisa M.</td>
+                      <td>Dr. Gupta</td>
+                      <td><span class="status-badge review">In Review</span></td>
+                      <td>2 days ago</td>
+                    </tr>
+                    <tr>
+                      <td>R-5524</td>
+                      <td>Mark R.</td>
+                      <td>Dr. Kim</td>
+                      <td><span class="status-badge active">Approved</span></td>
+                      <td>Today</td>
+                    </tr>
+                    <tr>
+                      <td>R-5525</td>
+                      <td>Sarah J.</td>
+                      <td>Dr. Singh</td>
+                      <td><span class="status-badge pending">Pending</span></td>
+                      <td>3 days ago</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Patient Portal -->
+          <div class="portal-card" data-reveal>
+            <div class="portal-info">
+              <div class="portal-badge purple">👤</div>
+              <h3 class="portal-title">Patient Portal</h3>
+              <p class="portal-desc">
+                Empower patients with transparency and easy access to their case information.
+              </p>
+              <ul class="portal-features">
+                <li class="portal-feat">View case status & updates</li>
+                <li class="portal-feat">Secure document sharing</li>
+                <li class="portal-feat">Message your care team</li>
+                <li class="portal-feat">Upload documents & forms</li>
+                <li class="portal-feat">Appointment & task reminders</li>
+              </ul>
+              <a href="#" class="btn btn-primary">Explore Patient Portal →</a>
+            </div>
+            <div class="portal-screen">
+              <div class="screen-bar">
+                <span></span><span></span><span></span>
+                <span class="screen-bar-title">My Care</span>
+              </div>
+              <div class="screen-content">
+                <div
+                  style="
+                    background: var(--gray-50);
+                    border-radius: 8px;
+                    padding: 12px;
+                    margin-bottom: 10px;
+                    border: 1px solid var(--gray-100);
+                  "
+                >
+                  <div
+                    style="
+                      font-size: 0.7rem;
+                      font-weight: 700;
+                      color: var(--blue-900);
+                      margin-bottom: 6px;
+                    "
+                  >
+                    Upcoming Appointment
+                  </div>
+                  <div style="font-size: 0.65rem; color: var(--gray-600)">
+                    Dr. Chen · May 28, 2026 · 10:00 AM
+                  </div>
+                  <div style="margin-top: 8px; display: flex; gap: 6px">
+                    <span
+                      style="
+                        font-size: 0.6rem;
+                        background: var(--blue-100);
+                        color: var(--blue-500);
+                        padding: 3px 8px;
+                        border-radius: 4px;
+                        font-weight: 600;
+                      "
+                      >Confirmed</span
+                    >
+                  </div>
+                </div>
+                <div
+                  style="
+                    font-size: 0.7rem;
+                    font-weight: 600;
+                    color: var(--blue-900);
+                    margin-bottom: 8px;
+                  "
+                >
+                  Recent Documents
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 6px">
+                  <div
+                    style="
+                      display: flex;
+                      align-items: center;
+                      gap: 8px;
+                      padding: 7px;
+                      background: var(--gray-50);
+                      border-radius: 6px;
+                      border: 1px solid var(--gray-100);
+                    "
+                  >
+                    <span style="font-size: 0.9rem">📄</span>
+                    <div style="flex: 1">
+                      <div style="font-size: 0.67rem; font-weight: 600; color: var(--blue-900)">
+                        Medical Report
+                      </div>
+                      <div style="font-size: 0.6rem; color: var(--gray-400)">Uploaded May 18</div>
+                    </div>
+                    <span style="font-size: 0.65rem; color: var(--blue-400); font-weight: 600"
+                      >View</span
+                    >
+                  </div>
+                  <div
+                    style="
+                      display: flex;
+                      align-items: center;
+                      gap: 8px;
+                      padding: 7px;
+                      background: var(--gray-50);
+                      border-radius: 6px;
+                      border: 1px solid var(--gray-100);
+                    "
+                  >
+                    <span style="font-size: 0.9rem">📋</span>
+                    <div style="flex: 1">
+                      <div style="font-size: 0.67rem; font-weight: 600; color: var(--blue-900)">
+                        Consent Form
+                      </div>
+                      <div style="font-size: 0.6rem; color: var(--gray-400)">Uploaded May 15</div>
+                    </div>
+                    <span style="font-size: 0.65rem; color: var(--blue-400); font-weight: 600"
+                      >View</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── WHY SECTION ───────────────────────────────────────── -->
+    <section class="why" id="why">
+      <div class="container">
+        <div class="why-header" data-reveal>
+          <span class="tag">Why Choose Us</span>
+          <h2 class="section-title" style="margin-top: 14px; margin-bottom: 14px">
+            Why Healthcare Professionals Choose <em>CaseClinical</em>
+          </h2>
+          <p class="section-sub">
+            Purpose-built for the unique demands of healthcare documentation and case management.
+          </p>
+        </div>
+        <div class="why-grid">
+          <div class="why-card" data-reveal data-delay="1">
+            <div class="why-num">01</div>
+            <h4>Built for Healthcare</h4>
+            <p>
+              Purpose-built workflows designed for healthcare professionals — not generic business
+              tools repurposed.
+            </p>
+          </div>
+          <div class="why-card" data-reveal data-delay="2">
+            <div class="why-num">02</div>
+            <h4>Reliable & Scalable</h4>
+            <p>
+              Secure, cloud-based platform that grows with your practice — from solo practitioners
+              to large networks.
+            </p>
+          </div>
+          <div class="why-card" data-reveal data-delay="3">
+            <div class="why-num">03</div>
+            <h4>Trusted & Compliant</h4>
+            <p>
+              HIPAA-compliant with industry-leading security and compliance built into every
+              feature.
+            </p>
+          </div>
+          <div class="why-card" data-reveal data-delay="4">
+            <div class="why-num">04</div>
+            <h4>Proven Efficiency</h4>
+            <p>
+              Reduce errors, improve accuracy, and save valuable time with intelligent automation.
+            </p>
+          </div>
+          <div class="why-card" data-reveal data-delay="5">
+            <div class="why-num">05</div>
+            <h4>Dedicated Support</h4>
+            <p>Responsive support team ready to help you succeed every step of the way.</p>
+          </div>
+          <div class="why-card" data-reveal data-delay="6">
+            <div class="why-num">06</div>
+            <h4>Continuous Innovation</h4>
+            <p>
+              We evolve with you — continuously delivering new features that matter most to your
+              practice.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── LOGOS ─────────────────────────────────────────────── -->
+    <section class="logos" data-reveal>
+      <div class="container">
+        <p class="logos-label">Trusted by Healthcare Professionals Nationwide</p>
+        <div class="logos-track">
+          <div class="logo-item">
+            <div class="logo-item-icon">🏥</div>
+            HealthFirst
+          </div>
+          <div class="logo-item">
+            <div class="logo-item-icon">💊</div>
+            CarePoint Solutions
+          </div>
+          <div class="logo-item">
+            <div class="logo-item-icon">🌐</div>
+            WellBridge
+          </div>
+          <div class="logo-item">
+            <div class="logo-item-icon">🔬</div>
+            MetroCare Network
+          </div>
+          <div class="logo-item">
+            <div class="logo-item-icon">🩺</div>
+            LifePath Healthcare
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── CTA ───────────────────────────────────────────────── -->
+    <section class="cta-section" data-reveal>
+      <div class="container">
+        <div class="cta-inner">
+          <div class="cta-left">
+            <div class="cta-rocket">🚀</div>
+            <div class="cta-text">
+              <h2>Ready to Transform Your Documentation?</h2>
+              <p>
+                Join thousands of healthcare professionals using CaseClinical to simplify
+                documentation and deliver better care.
+              </p>
+            </div>
+          </div>
+          <div class="cta-btns">
+            <a href="#" class="btn btn-white">Get Started Free</a>
+            <a href="#" class="btn btn-white-outline">Schedule a Demo</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── FOOTER ────────────────────────────────────────────── -->
+    <footer>
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <div class="footer-logo">
+              <a href="#" class="logo" style="color: var(--white)">
+                <div class="logo-icon">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="white">
+                    <path
+                      d="M9 1L2 5v4c0 4.1 2.9 7.9 7 9 4.1-1.1 7-4.9 7-9V5L9 1zm1 11H8V8h2v4zm0-6H8V4h2v2z"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  CaseClinical<br /><span class="logo-sub" style="color: rgba(255, 255, 255, 0.4)"
+                    >Documentation · By LearnWorlds</span
+                  >
+                </div>
+              </a>
+            </div>
+            <p class="footer-about">
+              CaseClinical is the leading documentation platform for healthcare professionals. Built
+              on LearnWorlds to deliver seamless learning and support.
+            </p>
+            <div class="footer-socials">
+              <a href="#" class="social-btn">in</a>
+              <a href="#" class="social-btn">f</a>
+              <a href="#" class="social-btn">𝕏</a>
+              <a href="#" class="social-btn">▶</a>
+            </div>
+          </div>
+
+          <div class="footer-col">
+            <h5>Documentation</h5>
+            <ul>
+              <li><a href="#">Getting Started</a></li>
+              <li><a href="#">User Guides</a></li>
+              <li><a href="#">API Reference</a></li>
+              <li><a href="#">Release Notes</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h5>Resources</h5>
+            <ul>
+              <li><a href="#">Help Center</a></li>
+              <li><a href="#">Videos</a></li>
+              <li><a href="#">Webinars</a></li>
+              <li><a href="#">Blog</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h5>Company</h5>
+            <ul>
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">Contact Us</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Terms of Service</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-newsletter">
+            <h5>Stay Updated</h5>
+            <p>Subscribe to our newsletter for tips, updates, and best practices.</p>
+            <div class="newsletter-form">
+              <input type="email" placeholder="Enter your email" />
+              <button type="button">→</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p>© 2026 CaseClinical Documentation by LearnWorlds. All rights reserved.</p>
+          <div class="footer-legal">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Cookie Policy</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // ─── NAVBAR SCROLL ──────────────────────────────────────
+      const navbar = document.getElementById('navbar');
+      window.addEventListener('scroll', () => {
+        navbar.classList.toggle('scrolled', window.scrollY > 20);
+      });
+
+      // ─── SCROLL REVEAL ──────────────────────────────────────
+      const revealEls = document.querySelectorAll('[data-reveal]');
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: '0px 0px -60px 0px' }
+      );
+      revealEls.forEach((el) => observer.observe(el));
+
+      // ─── COUNT UP ───────────────────────────────────────────
+      function animateCount(el, target, duration = 1800) {
+        let start = 0;
+        const step = (timestamp) => {
+          if (!start) start = timestamp;
+          const progress = Math.min((timestamp - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          el.textContent = Math.floor(eased * target).toLocaleString();
+          if (progress < 1) requestAnimationFrame(step);
+          else el.textContent = target.toLocaleString();
+        };
+        requestAnimationFrame(step);
+      }
+
+      const statObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const target = parseInt(entry.target.dataset.target);
+              animateCount(entry.target, target);
+              statObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.5 }
+      );
+      document.querySelectorAll('.count-up').forEach((el) => statObserver.observe(el));
+
+      // ─── PHONE BAR ANIMATION ────────────────────────────────
+      const barObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setTimeout(() => {
+                document.getElementById('phone-bar-fill').style.width = '78%';
+              }, 600);
+              barObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.5 }
+      );
+      const phoneFill = document.getElementById('phone-bar-fill');
+      if (phoneFill) barObserver.observe(phoneFill);
+
+      // ─── DONUT ARCS STAGGER ────────────────────────────────
+      const arcs = document.querySelectorAll('.donut-arc');
+      arcs.forEach((arc, i) => {
+        const fullDash = arc.getAttribute('stroke-dasharray').split(' ')[0];
+        arc.style.strokeDasharray = `0 100`;
+        setTimeout(() => {
+          arc.style.transition = 'stroke-dasharray 1s ease ' + i * 0.2 + 's';
+          arc.setAttribute('stroke-dasharray', arc.getAttribute('stroke-dasharray'));
+        }, 800);
+      });
+
+      // ─── HAMBURGER ─────────────────────────────────────────
+      document.getElementById('hamburger').addEventListener('click', function () {
+        this.classList.toggle('open');
+        // mobile menu toggle logic could go here
+      });
+
+      // ─── ACTIVE NAV LINK ───────────────────────────────────
+      const sections = document.querySelectorAll('section[id]');
+      const navLinks = document.querySelectorAll('.nav-links a');
+      window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach((s) => {
+          if (window.scrollY >= s.offsetTop - 120) current = s.id;
+        });
+        navLinks.forEach((link) => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+        });
+      });
+    </script>
+  </body>
+</html>
