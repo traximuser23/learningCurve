@@ -5,7 +5,7 @@
   <img src="assets/CaseClinical.png" alt="CaseClinical Logo" width="400" />
 </div>
 
-# 
+#
 
 ### _The Future of Clinical Documentation & Case Management_
 
