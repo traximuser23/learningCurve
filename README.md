@@ -25,83 +25,68 @@
 
 **CaseClinical** is a premium, high-performance web documentation platform designed specifically for medical case studies and clinical data visualization. Built with a focus on **elegance, accessibility, and fluid interaction**, it provides a modern interface for healthcare professionals to document and showcase clinical breakthroughs.
 
-> _"Bridging the gap between complex clinical data and beautiful, readable documentation."_
+---
+
+## 🎓 LearnWorlds Integration
+
+The project includes a robust pipeline for transforming standard HTML components into **LearnWorlds-compatible custom sections**.
+
+### 🔄 Transformation Pipeline
+
+- **`transform_full.py`**: The primary script that converts `src/ClaudeCode.html` into a production-ready LearnWorlds component. It automatically injects required platform attributes, handles full-width layouts, and optimizes animations.
+- **`learnWorlds/dist/`**: Contains the output files (`section_html.html` and `site_custom_code.css`) ready for deployment.
+
+### 🛠️ Key Compatibility Patterns
+
+- **Editability**: All text elements use `contenteditable=""` and `tabindex="0"`.
+- **Button Structure**: Buttons follow the native `Link + Inner Span` pattern to ensure they are both linkable and editable.
+- **Full-Width Layout**: CSS overrides force the section to span the full viewport width (`100vw`) even when nested in platform containers.
+- **Mockup Animations**: Custom JavaScript manually initializes SVG charts, progress bars, and count-up counters to ensure they work reliably in the LearnWorlds editor.
 
 ---
 
-## ✨ Features
+## 🤖 Gemini CLI Skills
 
-- 🖱️ **Dynamic Interactions:** Immersive parallax effects and interactive device mockups for a high-end feel.
-- 📱 **Fully Responsive:** Seamlessly transitions from mobile screens to large desktop monitors.
-- 🎨 **Modern Aesthetic:** Uses a carefully curated palette of deep inks and vibrant blues, inspired by modern healthcare platforms.
-- ⚡ **Optimized Performance:** Lightweight vanilla JavaScript ensures fast load times and smooth animations.
-- 📂 **Documentation Focused:** Dedicated layouts for deep-diving into clinical cases and technical specs.
+We have developed a specialized skill for Gemini CLI to assist with LearnWorlds development:
 
----
+### **learnworlds-support**
+Provides expert guidance on:
+- Preparing custom HTML for LearnWorlds.
+- Troubleshooting editability and saving issues.
+- Implementing robust animations for mockup components.
 
-## 🛠️ Tech Stack
-
-| Technology         | Purpose                                                          |
-| :----------------- | :--------------------------------------------------------------- |
-| **HTML5**          | Semantic structure and SEO optimization                          |
-| **CSS3**           | Custom properties (variables), Flexbox, and Grid layouts         |
-| **Vanilla JS**     | Parallax effects, Intersection Observer API, and UI interactions |
-| **Syne & DM Sans** | High-quality typography for readability                          |
-
----
-
-## 📸 Screenshots
-
-<div align="center">
-  <img src="assets/perplexity.png" alt="Interface Showcase" width="80%" style="border-radius: 10px; border: 1px solid #e2e6f5; box-shadow: 0 4px 32px rgba(26, 78, 255, 0.08);" />
-  <p><em>The sleek CaseClinical dashboard interface.</em></p>
-</div>
+**To install:**
+```bash
+gemini skills install learnworlds-support.skill
+```
 
 ---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
+- Python 3.x (for running transformation scripts)
+- A modern web browser
 
-- A modern web browser (Chrome, Firefox, Safari, or Edge)
-- (Optional) Node.js and npm for formatting
-
-### Installation
-
-1. **Clone the repository:**
-
-   ```bash
-   git clone https://github.com/yourusername/caseclinical.git
-   ```
-
-2. **Open the project:**
-   Simply open `src/homepage.html` in your favorite browser.
-
-3. **Development (Optional):**
-   Install dependencies for linting and formatting:
-   ```bash
-   npm install
-   ```
+### Building for LearnWorlds
+To generate the latest LearnWorlds assets:
+```bash
+python3 transform_full.py
+```
+The results will be in `learnWorlds/dist/`.
 
 ---
 
 ## 🏗️ Project Structure
 
 ```text
-├── assets/         # Project images and logos
-├── final/          # Finalized HTML templates
-├── src/            # Core source files
-│   ├── homepage.html
-│   ├── script.js
-│   └── styles.css
-└── package.json    # Project configuration
+├── learnWorlds/     # LearnWorlds specific assets and outputs
+│   ├── dist/        # Production-ready HTML/CSS for LearnWorlds
+│   └── example_code.html # Platform reference code
+├── src/            # Core source files (HTML, CSS, JS)
+├── transform_full.py # Main LearnWorlds transformation script
+└── learnworlds-support.skill # Gemini CLI specialized skill
 ```
-
----
-
-## 📄 License
-
-This project is licensed under the **ISC License** - see the [package.json](package.json) file for details.
 
 ---
 
