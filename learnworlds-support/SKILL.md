@@ -27,10 +27,12 @@ This skill provides expert guidance for preparing custom HTML/CSS/JS for LearnWo
 ## Resources
 
 ### References
+
 - [lw_attributes.md](references/lw_attributes.md): Detailed list of required attributes and classes.
 - [mockup_animations.md](references/mockup_animations.md): Code patterns for SVG graphs and progress bar animations.
 
 ### Scripts
+
 - [transform_html.py](scripts/transform_html.py): A Python script to automatically inject LearnWorlds attributes into an HTML file.
 
 ## Troubleshooting

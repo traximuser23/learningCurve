@@ -50,12 +50,15 @@ The project includes a robust pipeline for transforming standard HTML components
 We have developed a specialized skill for Gemini CLI to assist with LearnWorlds development:
 
 ### **learnworlds-support**
+
 Provides expert guidance on:
+
 - Preparing custom HTML for LearnWorlds.
 - Troubleshooting editability and saving issues.
 - Implementing robust animations for mockup components.
 
 **To install:**
+
 ```bash
 gemini skills install learnworlds-support.skill
 ```
@@ -65,14 +68,18 @@ gemini skills install learnworlds-support.skill
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - Python 3.x (for running transformation scripts)
 - A modern web browser
 
 ### Building for LearnWorlds
+
 To generate the latest LearnWorlds assets:
+
 ```bash
 python3 transform_full.py
 ```
+
 The results will be in `learnWorlds/dist/`.
 
 ---

@@ -23,15 +23,20 @@ To make custom HTML editable and interactive in LearnWorlds, specific attributes
 Custom HTML should ideally be wrapped in the official LearnWorlds section structure to ensure saving works correctly:
 
 ```html
-<section class="js-learnworlds-section learnworlds-section lw-brand-bg stretched-bg learnworlds-size-normal learnworlds-align-center js-change-image-node"
-         data-section-id="custom_section_id"
-         id="custom_section_id">
-    <div class="js-video-wrapper"></div>
-    <div class="learnworlds-section-overlay lw-light-bg js-learnworlds-overlay" style="display: none"></div>
-    <div class="learnworlds-section-content js-learnworlds-section-content wide">
-        <div class="lw-custom-wrapper">
-            <!-- Your Content Here -->
-        </div>
+<section
+  class="js-learnworlds-section learnworlds-section lw-brand-bg stretched-bg learnworlds-size-normal learnworlds-align-center js-change-image-node"
+  data-section-id="custom_section_id"
+  id="custom_section_id"
+>
+  <div class="js-video-wrapper"></div>
+  <div
+    class="learnworlds-section-overlay lw-light-bg js-learnworlds-overlay"
+    style="display: none"
+  ></div>
+  <div class="learnworlds-section-content js-learnworlds-section-content wide">
+    <div class="lw-custom-wrapper">
+      <!-- Your Content Here -->
     </div>
+  </div>
 </section>
 ```
